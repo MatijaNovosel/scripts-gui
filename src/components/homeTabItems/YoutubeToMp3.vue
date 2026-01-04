@@ -1,14 +1,16 @@
 <template>
-  <v-text-field
-    density="compact"
-    label="Youtube link"
-    prepend-icon="mdi-text"
-    bg-color="grey-lighten-4"
-    class="w-100"
-  />
-  <v-btn rounded="6" class="mt-5 text-white" color="orange" @click="compressVideo">
-    Download
-  </v-btn>
+  <div class="d-flex flex-column align-end">
+    <v-text-field
+      density="compact"
+      label="Youtube link"
+      prepend-icon="mdi-text"
+      bg-color="grey-lighten-4"
+      class="w-100"
+    />
+    <v-btn rounded="6" class="mt-1 text-white" color="orange" @click="compressVideo">
+      Download
+    </v-btn>
+  </div>
 </template>
 
 <script lang="ts" setup>

@@ -8,10 +8,10 @@
     </v-tabs>
     <v-divider />
     <v-tabs-window v-model="tab" class="tabs-content pa-5">
-      <v-tabs-window-item :value="Tabs.CompressVideo" class="d-flex flex-column align-end">
+      <v-tabs-window-item :value="Tabs.CompressVideo">
         <CompressVideo />
       </v-tabs-window-item>
-      <v-tabs-window-item :value="Tabs.YoutubeToMp3" class="d-flex flex-column align-end">
+      <v-tabs-window-item :value="Tabs.YoutubeToMp3">
         <YoutubeToMp3 />
       </v-tabs-window-item>
     </v-tabs-window>
