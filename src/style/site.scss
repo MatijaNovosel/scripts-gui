@@ -1,0 +1,257 @@
+a[href="https://www.maptiler.com"]
+{
+  display: none !important;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: black;
+  padding-top: var(--safe-area-inset-top);
+  padding-bottom: var(--safe-area-inset-bottom);
+}
+
+#map {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.display-contents {
+  display: contents;
+}
+
+.list-enter-active,
+.list-leave-active {
+  animation: bounce 0.5s;
+}
+
+.list-enter-from,
+.list-leave-to {
+  animation: bounce 0.5s reverse;
+}
+
+.bounce-enter-active {
+  animation: bounce 0.5s;
+}
+
+.bounce-leave-active {
+  display: none;
+}
+
+@keyframes bounce {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.25);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.fade-enter-active {
+  transition: all 0.3s ease-out;
+}
+
+.fade-leave-active {
+  transition: all 0.1s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  transform: translateX(20px);
+  opacity: 0;
+}
+
+.fade-top-enter-active {
+  transition: all 0.3s ease-out;
+}
+
+.fade-top-leave-active {
+  transition: all 0.1s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.fade-top-enter-from,
+.fade-top-leave-to {
+  transform: translateY(20px);
+  opacity: 0;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #aeb3cda9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #8092f5;
+}
+
+.flex-gap {
+  gap: 12px;
+}
+
+.main-ctr {
+  max-width: 70%;
+  height: 100vh;
+}
+
+@media only screen and (max-width: 600px) {
+  .main-ctr {
+    max-width: 100%;
+  }
+}
+
+.vehicle-marker {
+  width: 35px;
+  height: 35px;
+  position: relative;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+
+  &.active {
+    &::after {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background-color: #72a1d3;
+      animation: pulse 1.5s ease-out infinite;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+  }
+
+  &-text {
+    border-radius: 50%;
+    position: absolute;
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+    text-align: center;
+    line-height: 15px;
+    font-weight: bold;
+    font-family: Roboto;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  }
+
+  &-rotation {
+    border-radius: 50%;
+    z-index: -1;
+    position: absolute;
+    background-color: transparent;
+    width: 35px;
+    height: 35px;
+
+    &-arrow {
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+    }
+  }
+}
+
+.current-location-marker {
+  width: 20px;
+  height: 20px;
+  position: relative;
+  background-color: #4f9ef1;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #007bffcc;
+  border: 2px solid white;
+
+  &::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: #007bff80;
+    animation: pulse 1.5s ease-out infinite;
+    top: 0;
+    left: 0;
+    z-index: -1;
+  }
+}
+
+.pulse {
+  animation: pulse 1.5s ease-out infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  70% {
+    transform: scale(2.8);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(2.8);
+    opacity: 0;
+  }
+}
+
+.spinPulse {
+  animation: spinPulse 2s infinite;
+}
+
+@keyframes spinPulse {
+  0% {
+    transform: scale(0.75);
+  }
+  50% {
+    transform: scale(1);
+    rotate: 180deg;
+  }
+  100% {
+    transform: scale(0.75);
+  }
+}
+
+.stop-marker {
+  width: 20px;
+  height: 20px;
+  position: relative;
+  background-color: #74abe6;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+
+  &.active {
+    background-color: #4cc540;
+    z-index: 19999 !important;
+
+    &::after {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background-color: #398d32;
+      animation: pulse 1.5s ease-out infinite;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+  }
+}
