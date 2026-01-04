@@ -1,6 +1,6 @@
 <template>
   <div class="pb-5 h-100 d-flex flex-column">
-    <v-tabs v-model="tab" color="orange" bg-color="grey-lighten-5">
+    <v-tabs v-model="tab" :disabled="appStore.loading" color="orange" bg-color="grey-lighten-5">
       <v-tab :value="Tabs.CompressVideo" rounded="0" class="text-capitalize">
         Compress video
       </v-tab>
@@ -22,6 +22,7 @@
 import { ref } from "vue";
 import CompressVideo from "../components/homeTabItems/CompressVideo.vue";
 import YoutubeToMp3 from "../components/homeTabItems/YoutubeToMp3.vue";
+import { useAppStore } from "../store/app";
 
 enum Tabs {
   CompressVideo = "compressVideo",
@@ -29,6 +30,7 @@ enum Tabs {
 }
 
 const tab = ref(Tabs.CompressVideo);
+const appStore = useAppStore();
 </script>
 
 <style lang="scss" scoped>

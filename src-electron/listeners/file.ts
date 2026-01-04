@@ -76,8 +76,6 @@ async function compressVideo(inputPath: string, outputPath: string, sizeMB: numb
     fs.unlinkSync(`${passlogBase}-0.log.mbtree`);
   } catch {}
 
-  console.log("finished");
-
   return {
     outputPath,
     duration,
@@ -101,9 +99,6 @@ export const registerFileListeners = () => {
     async (event, inputPath: string, outputPath: string, sizeMB: number) => {
       if (!fs.existsSync(inputPath)) throw new Error("Input file does not exist!");
       if (!sizeMB || sizeMB <= 0) throw new Error("Invalid target size (MB).");
-
-      console.log(outputPath);
-      console.log(__dirname);
 
       await compressVideo(inputPath, outputPath, sizeMB);
     }

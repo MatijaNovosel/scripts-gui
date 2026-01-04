@@ -6,6 +6,7 @@
       prepend-icon="mdi-video"
       bg-color="grey-lighten-4"
       class="w-100"
+      :disabled="appStore.loading"
       v-model="inputFile"
     />
     <v-text-field
@@ -14,6 +15,7 @@
       prepend-icon="mdi-text"
       bg-color="grey-lighten-4"
       class="w-100"
+      :disabled="appStore.loading"
       v-model="outputFileName"
     />
     <v-text-field
@@ -22,11 +24,19 @@
       prepend-icon="mdi-calculator"
       bg-color="grey-lighten-4"
       class="w-100"
+      :disabled="appStore.loading"
       v-model="outputSize"
     >
       <template #append> MB </template>
     </v-text-field>
-    <v-btn rounded="6" class="mt-1 text-white" color="orange" @click="compressVideo">
+    <v-btn
+      :loading="appStore.loading"
+      :disabled="appStore.loading"
+      rounded="6"
+      class="mt-1 text-white"
+      color="orange"
+      @click="compressVideo"
+    >
       Compress
     </v-btn>
   </div>
@@ -42,11 +52,18 @@ const outputFileName = ref<string>("output.mp4");
 const outputSize = ref<string | null>("10");
 
 const compressVideo = async () => {
-  await appStore.ipcService.compressVideo(
-    inputFile.value?.path || "",
-    outputFileName.value,
-    Number(outputSize.value)
-  );
+  try {
+    appStore.loading = true;
+    await appStore.ipcService.compressVideo(
+      inputFile.value?.path || "",
+      outputFileName.value,
+      Number(outputSize.value)
+    );
+  } catch {
+    //
+  } finally {
+    appStore.loading = false;
+  }
 };
 </script>
 
