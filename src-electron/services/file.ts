@@ -1,9 +1,8 @@
 import { ipcRenderer } from "electron";
-import { IPCEvents } from "../../utils/constants";
-import { IFileAPI } from "../interfaces/file";
+import { IPCEvents } from "../utils/constants";
 
-const fileAPI: IFileAPI = {
-  getFile: async (path: string) => await ipcRenderer.invoke(IPCEvents.GET_FILE, path),
+const fileAPI = {
+  selectOutputPath: async () => await ipcRenderer.invoke(IPCEvents.SELECT_OUTPUT_PATH),
   compressVideo: async (inputPath: string, outputPath: string, size: number) =>
     await ipcRenderer.invoke(IPCEvents.COMPRESS_VIDEO, inputPath, outputPath, size)
 };

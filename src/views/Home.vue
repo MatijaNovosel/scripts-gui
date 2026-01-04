@@ -5,6 +5,7 @@
         Compress video
       </v-tab>
       <v-tab :value="Tabs.YoutubeToMp3" rounded="0" class="text-capitalize"> Youtube to mp3 </v-tab>
+      <v-tab :value="Tabs.RedditToMp4" rounded="0" class="text-capitalize"> Reddit to mp4 </v-tab>
     </v-tabs>
     <v-divider />
     <v-tabs-window v-model="tab" class="tabs-content pa-5">
@@ -14,6 +15,9 @@
       <v-tabs-window-item :value="Tabs.YoutubeToMp3">
         <YoutubeToMp3 />
       </v-tabs-window-item>
+      <v-tabs-window-item :value="Tabs.RedditToMp4">
+        <RedditToMp4 />
+      </v-tabs-window-item>
     </v-tabs-window>
   </div>
 </template>
@@ -21,12 +25,14 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import CompressVideo from "../components/homeTabItems/CompressVideo.vue";
+import RedditToMp4 from "../components/homeTabItems/RedditToMp4.vue";
 import YoutubeToMp3 from "../components/homeTabItems/YoutubeToMp3.vue";
 import { useAppStore } from "../store/app";
 
 enum Tabs {
   CompressVideo = "compressVideo",
-  YoutubeToMp3 = "youtubeToMp3"
+  YoutubeToMp3 = "youtubeToMp3",
+  RedditToMp4 = "redditToMp4"
 }
 
 const tab = ref(Tabs.CompressVideo);

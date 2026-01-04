@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex flex-column align-end">
+  <div class="d-flex flex-column align-start">
     <v-file-input
       label="Input file (mp4)"
       density="compact"
@@ -8,15 +8,6 @@
       class="w-100"
       :disabled="appStore.loading"
       v-model="inputFile"
-    />
-    <v-text-field
-      density="compact"
-      label="Output file name"
-      prepend-icon="mdi-text"
-      bg-color="grey-lighten-4"
-      class="w-100"
-      :disabled="appStore.loading"
-      v-model="outputFileName"
     />
     <v-text-field
       density="compact"
@@ -29,11 +20,23 @@
     >
       <template #append> MB </template>
     </v-text-field>
+    <v-text-field
+      density="compact"
+      label="Output file name"
+      prepend-icon="mdi-folder"
+      bg-color="grey-lighten-4"
+      class="w-100"
+      hide-details
+      :disabled="appStore.loading"
+      v-model="outputPath"
+      @click="selectOutputPath"
+      readonly
+    />
     <v-btn
       :loading="appStore.loading"
-      :disabled="appStore.loading"
+      :disabled="buttonShouldBeDisabled"
       rounded="6"
-      class="mt-1 text-white"
+      class="mt-5 text-white text-capitalize align-self-end"
       color="orange"
       @click="compressVideo"
     >
@@ -43,20 +46,27 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { useAppStore } from "../../store/app";
 
 const appStore = useAppStore();
 const inputFile = ref<File | null>(null);
-const outputFileName = ref<string>("output.mp4");
 const outputSize = ref<string | null>("10");
+const outputPath = ref<string>("");
+
+const selectOutputPath = async () => {
+  const result = await appStore.ipcService.selectOutputPath();
+  if (result) {
+    outputPath.value = result;
+  }
+};
 
 const compressVideo = async () => {
   try {
     appStore.loading = true;
     await appStore.ipcService.compressVideo(
       inputFile.value?.path || "",
-      outputFileName.value,
+      outputPath.value,
       Number(outputSize.value)
     );
   } catch {
@@ -65,6 +75,17 @@ const compressVideo = async () => {
     appStore.loading = false;
   }
 };
+
+const buttonShouldBeDisabled = computed(() => {
+  return (
+    appStore.loading ||
+    !inputFile.value ||
+    !outputPath.value ||
+    !outputSize.value ||
+    isNaN(Number(outputSize.value)) ||
+    Number(outputSize.value) <= 0
+  );
+});
 </script>
 
 <style lang="scss" scoped>

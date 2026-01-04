@@ -1,5 +1,5 @@
 import { exec } from "child_process";
-import { ipcMain } from "electron";
+import { dialog, ipcMain } from "electron";
 import fs from "fs";
 import os from "os";
 import path from "path";
@@ -31,7 +31,7 @@ async function compressVideo(inputPath: string, outputPath: string, sizeMB: numb
   }
 
   const audioStream = (data?.streams || []).find((s: any) => s.codec_type === "audio");
-  let audioBitrate = audioStream?.bit_rate ? parseFloat(audioStream.bit_rate) : 128000; // fallback if missing
+  let audioBitrate = audioStream?.bit_rate ? parseFloat(audioStream.bit_rate) : 128000;
 
   const minAudioBitrate = 32000;
   const maxAudioBitrate = 256000;
@@ -86,14 +86,6 @@ async function compressVideo(inputPath: string, outputPath: string, sizeMB: numb
 }
 
 export const registerFileListeners = () => {
-  ipcMain.handle(IPCEvents.GET_FILE, (event, pathStr: string) => {
-    if (fs.existsSync(pathStr)) {
-      const base64 = fs.readFileSync(pathStr, { encoding: "base64" });
-      return base64;
-    }
-    throw new Error("File does not exist!");
-  });
-
   ipcMain.handle(
     IPCEvents.COMPRESS_VIDEO,
     async (event, inputPath: string, outputPath: string, sizeMB: number) => {
@@ -103,4 +95,14 @@ export const registerFileListeners = () => {
       await compressVideo(inputPath, outputPath, sizeMB);
     }
   );
+
+  ipcMain.handle(IPCEvents.SELECT_OUTPUT_PATH, async (event) => {
+    const result = await dialog.showSaveDialog({
+      title: "Select output file",
+      filters: [{ name: "MP4 Video", extensions: ["mp4"] }]
+    });
+
+    if (result.canceled) return null;
+    return result.filePath;
+  });
 };

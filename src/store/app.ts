@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
-import { IpcService } from "../api/services/ipcService";
+import { IpcService } from "../services/ipcService";
 
 export const useAppStore = defineStore("app", () => {
   const loading = ref(false);
